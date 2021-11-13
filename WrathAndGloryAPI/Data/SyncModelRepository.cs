@@ -27,8 +27,13 @@ namespace WrathAndGloryAPI.Data
             return _context.SyncModels.AsEnumerable();
         }
 
-        public IEnumerable<SyncModel> Filter(Func<SyncModel, bool> predicate)
+        public IEnumerable<SyncModel> Filter(Func<SyncModel, bool> predicate, bool asNoTracking = false)
         {
+            if(asNoTracking)
+            {
+                return _context.SyncModels.AsNoTracking().Where(predicate).AsEnumerable();
+            }
+
             return _context.SyncModels.Where(predicate).AsEnumerable();
         }
 
@@ -58,6 +63,11 @@ namespace WrathAndGloryAPI.Data
 
             List<SyncModel> updatedModels = syncModels.Where(x => apiIds.Any(o => o == x.Id)).ToList();
             List<SyncModel> newModels = syncModels.Where(x => !apiIds.Any(o => o == x.Id)).ToList();
+
+            //if(syncModels.Any(x => x.ModelType != ModelType.Character))
+            //{
+
+            //}
 
             _context.UpdateRange(updatedModels);
             _context.AddRange(newModels);

@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using WrathAndGloryAPI.Interfaces;
 using WrathAndGloryModels;
+using WrathAndGloryModels.Extensions;
+using WrathAndGloryModels.Interfaces;
 
 namespace WrathAndGloryAPI.Controllers
 {
@@ -98,6 +100,77 @@ namespace WrathAndGloryAPI.Controllers
             }
         }
 
+        /// <summary>
+        /// If a SyncModel has been updated then characters may need to be updated since the old value is saved as JSON.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="effectedModelType"></param>
+        /// <returns></returns>
+        [HttpPost("validateCharacterModels/{id}/{effectedModelType}")]
+        public IActionResult ValidateCharacterModels(Guid id, ModelType effectedModelType)
+        {
+            try
+            {
+                //If the syncModel is not present in the database anymore then it has been deleted
+                SyncModel modifiedSyncModel = _repository.GetById(id);
+                bool isDelete = modifiedSyncModel == null;
+
+                //Get all characters
+                List<SyncModel> syncModels = _repository.Filter(x => x.ModelType == ModelType.Character && x.Json.Contains(id.ToString()), true).ToList();
+                List<Character> characters = syncModels.ConvertSyncModelsToCoreModels<Character>();
+
+                List<SyncModel> updatedModels = new List<SyncModel>();
+
+                foreach(Character character in characters)
+                {
+                    if (effectedModelType == ModelType.Gear)
+                    {
+                        ValidateCharacterCoreModelList(character.CharacterGear, modifiedSyncModel, isDelete, id);
+                    }
+                    else if (effectedModelType == ModelType.Armor)
+                    {
+                        ValidateCharacterCoreModelList(character.Armor, modifiedSyncModel, isDelete, id);
+                    }
+                    else if (effectedModelType == ModelType.Weapon)
+                    {
+                        ValidateCharacterCoreModelList(character.Weapons, modifiedSyncModel, isDelete, id);
+                    }
+                    else if (effectedModelType == ModelType.Talent)
+                    {
+                        ValidateCharacterCoreModelList(character.Talents, modifiedSyncModel, isDelete, id);
+                    }
+                    else if (effectedModelType == ModelType.Archetype && isDelete)
+                    {
+                        character.Archetype = null;
+                    }
+                    else if(effectedModelType == ModelType.Archetype && !isDelete)
+                    {
+                        character.Archetype = modifiedSyncModel.ConvertSyncModelToCoreModel<Archetype>();
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+                    updatedModels.Add(new SyncModel
+                    {
+                        Id = character.Id,
+                        Json = JsonConvert.SerializeObject(character),
+                        LastUpdateDateTime = DateTime.Now,
+                        ModelType = ModelType.Character
+                    });
+                }
+
+                _repository.AddOrUpdate(updatedModels);
+
+                return Ok(updatedModels.Count);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
         [HttpDelete("delete/{id}")]
         public IActionResult Delete(Guid id)
         {
@@ -111,6 +184,26 @@ namespace WrathAndGloryAPI.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, ex);
+            }
+        }
+
+        /// <summary>
+        /// Removes the model from the character core model list if it no longer exists, otherwise update it
+        /// </summary>
+        /// <typeparam name="CoreModel"></typeparam>
+        /// <param name="coreModelList"></param>
+        /// <param name="modifedSyncModel"></param>
+        /// <param name="isDelete"></param>
+        /// <param name="modifedModelId"></param>
+        private void ValidateCharacterCoreModelList<CoreModel>(List<CoreModel> coreModelList, SyncModel modifedSyncModel, bool isDelete, Guid modifedModelId)
+            where CoreModel : ICoreModel
+        {
+            coreModelList.RemoveAll(x => x.Id == modifedModelId);
+
+            if (!isDelete)
+            {
+                CoreModel modifedGear = modifedSyncModel.ConvertSyncModelToCoreModel<CoreModel>();
+                coreModelList.Add(modifedGear);
             }
         }
 

@@ -18,12 +18,15 @@ namespace WrathAndGloryModels
 
         public int AR { get; set; }
 
-        public string Traits { get; set; }
-
         public string Value { get; set; }
 
         public string Keywords { get; set; }
 
         public bool IsEquipped { get; set; }
+
+        [Obsolete("This is being replaced by ArmorTraits", false)]
+        public string Traits { get; set; }
+
+        public ArmorTraits ArmorTraits { get; set; }
     }
 }

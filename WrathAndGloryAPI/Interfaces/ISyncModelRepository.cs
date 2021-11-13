@@ -13,7 +13,7 @@ namespace WrathAndGloryAPI.Interfaces
 
         IEnumerable<SyncModel> GetAll();
 
-        IEnumerable<SyncModel> Filter(Func<SyncModel, bool> predicate);
+        IEnumerable<SyncModel> Filter(Func<SyncModel, bool> predicate, bool asNoTracking = false);
 
         void Add(SyncModel syncModel);
 

@@ -28,11 +28,14 @@ namespace WrathAndGloryModels
 
         public string Range { get; set; }
 
-        public string Traits { get; set; }
-
         public bool IsMelee { get; set; }
 
         public bool IsEquipped { get; set; }
+
+        [Obsolete("This is being replaced by WeaponTraits", false)]
+        public string Traits { get; set; }
+
+        public WeaponTraits WeaponTraits { get; set; }
 
         [JsonIgnore]
         public List<Character> Characters { get; set; }

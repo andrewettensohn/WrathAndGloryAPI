@@ -16,6 +16,32 @@ namespace WrathAndGloryAPI.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.11");
 
+            modelBuilder.Entity("WrathAndGloryModels.RuleReference", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Body")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("RuleReferenceType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SecondaryBody")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SubTitle")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RuleReferences");
+                });
+
             modelBuilder.Entity("WrathAndGloryModels.SyncModel", b =>
                 {
                     b.Property<Guid>("Id")

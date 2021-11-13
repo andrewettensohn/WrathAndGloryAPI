@@ -25,6 +25,7 @@ namespace WrathAndGloryAPI
         }
 
         public IConfiguration Configuration { get; }
+        private string _myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -38,6 +39,18 @@ namespace WrathAndGloryAPI
 
             services.AddDbContext<WrathAndGloryContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<ISyncModelRepository, SyncModelRepository>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(_myAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:3000")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                });
+            });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,6 +66,8 @@ namespace WrathAndGloryAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(_myAllowSpecificOrigins);
 
             app.UseAuthorization();
 
