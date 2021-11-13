@@ -64,11 +64,6 @@ namespace WrathAndGloryAPI.Data
             List<SyncModel> updatedModels = syncModels.Where(x => apiIds.Any(o => o == x.Id)).ToList();
             List<SyncModel> newModels = syncModels.Where(x => !apiIds.Any(o => o == x.Id)).ToList();
 
-            //if(syncModels.Any(x => x.ModelType != ModelType.Character))
-            //{
-
-            //}
-
             _context.UpdateRange(updatedModels);
             _context.AddRange(newModels);
 

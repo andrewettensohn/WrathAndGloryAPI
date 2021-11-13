@@ -39,6 +39,7 @@ namespace WrathAndGloryAPI
 
             services.AddDbContext<WrathAndGloryContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<ISyncModelRepository, SyncModelRepository>();
+            services.AddScoped<IRulesReferenceRepository, RulesReferenceRepository>();
 
             services.AddCors(options =>
             {
