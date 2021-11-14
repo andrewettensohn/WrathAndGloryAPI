@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Version>1.0.0</Version>
+    <UserSecretsId>c78ea3b0-0017-477e-9038-b4a9088aa8ff</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +25,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WrathAndGloryModels\WrathAndGloryModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="WrathAndGlory.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

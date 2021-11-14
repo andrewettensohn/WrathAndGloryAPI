@@ -338,3 +338,6 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/WrathAndGloryAPI/Properties/ServiceDependencies/wrathandglorysyncapi - Web Deploy/profile.arm.json
+/WrathAndGloryAPI/Properties
+/WrathAndGloryAPI/.config

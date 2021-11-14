@@ -44,6 +44,8 @@ namespace WrathAndGloryModels
 
         public bool Silent { get; set; }
 
+        public int Sniper { get; set; }
+
         public bool Spread { get; set; }
 
         public bool Supercharge { get; set; }

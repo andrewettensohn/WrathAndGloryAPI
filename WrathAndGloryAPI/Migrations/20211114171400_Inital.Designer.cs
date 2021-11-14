@@ -9,7 +9,7 @@ using WrathAndGloryAPI.Data;
 namespace WrathAndGloryAPI.Migrations
 {
     [DbContext(typeof(WrathAndGloryContext))]
-    [Migration("20211113220253_Inital")]
+    [Migration("20211114171400_Inital")]
     partial class Inital
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
