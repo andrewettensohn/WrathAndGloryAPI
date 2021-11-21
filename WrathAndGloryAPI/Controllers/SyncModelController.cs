@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -91,6 +92,23 @@ namespace WrathAndGloryAPI.Controllers
         {
             try
             {
+                syncModels.ForEach(x =>
+                {
+                    if (x.Id == Guid.Empty)
+                    {
+                        x.Id = Guid.NewGuid();
+                    }
+
+                    JObject jsonModel = JObject.Parse(x.Json);
+
+                    if (jsonModel["Id"].ToString() == Guid.Empty.ToString())
+                    {
+                        jsonModel["Id"] = Guid.NewGuid().ToString();
+                    }
+
+                    x.Json = jsonModel.ToString();
+                });
+
                 _repository.AddOrUpdate(syncModels);
                 return Ok();
             }

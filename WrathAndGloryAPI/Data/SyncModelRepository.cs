@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using WrathAndGloryAPI.Interfaces;
 using WrathAndGloryModels;
 
@@ -51,14 +50,6 @@ namespace WrathAndGloryAPI.Data
 
         public void AddOrUpdate(List<SyncModel> syncModels)
         {
-            syncModels.ForEach(x =>
-            {
-                if (x.Id == Guid.Empty)
-                {
-                    x.Id = Guid.NewGuid();
-                }
-            });
-
             List<Guid> apiIds = _context.SyncModels.AsNoTracking().Select(x => x.Id).ToList();
 
             List<SyncModel> updatedModels = syncModels.Where(x => apiIds.Any(o => o == x.Id)).ToList();
