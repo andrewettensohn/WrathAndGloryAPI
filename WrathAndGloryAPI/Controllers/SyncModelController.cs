@@ -103,7 +103,7 @@ namespace WrathAndGloryAPI.Controllers
 
                     if (jsonModel["Id"].ToString() == Guid.Empty.ToString())
                     {
-                        jsonModel["Id"] = Guid.NewGuid().ToString();
+                        jsonModel["Id"] = x.Id.ToString();
                     }
 
                     x.Json = jsonModel.ToString();
