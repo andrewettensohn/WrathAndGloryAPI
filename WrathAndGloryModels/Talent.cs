@@ -21,6 +21,8 @@ namespace WrathAndGloryModels
 
         public int XPCost { get; set; }
 
+        public bool ThreatOnly { get; set; }
+
         [JsonIgnore]
         public List<Character> Characters { get; set; }
 
