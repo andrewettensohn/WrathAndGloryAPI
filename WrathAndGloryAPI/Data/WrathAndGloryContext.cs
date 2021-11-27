@@ -12,7 +12,5 @@ namespace WrathAndGloryAPI.Data
         public WrathAndGloryContext(DbContextOptions<WrathAndGloryContext> options) : base(options) { }
 
         public DbSet<SyncModel> SyncModels { get; set; }
-
-        public DbSet<RuleReference> RuleReferences { get; set; }
     }
 }

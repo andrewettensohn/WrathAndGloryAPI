@@ -35,6 +35,8 @@ namespace WrathAndGloryModels
 
         public Attributes Attributes { get; set; }
 
+        public int DefaultSkill { get; set; }
+
         public Skills Skills { get; set; }
 
         public List<Armor> Armor { get; set; }
