@@ -195,6 +195,12 @@ namespace WrathAndGloryAPI.Controllers
             try
             {
                 SyncModel modelToDelete = _repository.GetById(id);
+
+                if(modelToDelete == null)
+                {
+                    return NotFound("Unable to find a model for the provided ID.");
+                }
+
                 _repository.Delete(modelToDelete);
 
                 return Ok();

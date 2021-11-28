@@ -9,7 +9,7 @@ using WrathAndGloryAPI.Data;
 namespace WrathAndGloryAPI.Migrations
 {
     [DbContext(typeof(WrathAndGloryContext))]
-    [Migration("20211114171400_Inital")]
+    [Migration("20211127232026_Inital")]
     partial class Inital
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,32 +17,6 @@ namespace WrathAndGloryAPI.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.11");
-
-            modelBuilder.Entity("WrathAndGloryModels.RuleReference", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Body")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("RuleReferenceType")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("SecondaryBody")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("SubTitle")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("RuleReferences");
-                });
 
             modelBuilder.Entity("WrathAndGloryModels.SyncModel", b =>
                 {

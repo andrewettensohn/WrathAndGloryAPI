@@ -15,6 +15,7 @@ namespace WrathAndGloryModels
         Pyschic,
         Quest,
         Talent,
-        Weapon
+        Weapon,
+        Threat
     }
 }
